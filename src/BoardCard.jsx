@@ -7,12 +7,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function BoardCard({ board, handleOpenBoard, handleDeleteBoard }) {
+export default function BoardCard({
+  board,
+  handleOpenBoard,
+  handleDeleteBoard,
+}) {
   return (
     <Card>
-      <CardMedia // TODO specify attributes
+      <CardMedia // TODO edit and specify attributes
         component="img"
-        alt="TODO" 
+        alt="TODO"
         height="140"
         width="140"
         image="https://placehold.co/400"
@@ -26,7 +30,9 @@ export default function BoardCard({ board, handleOpenBoard, handleDeleteBoard })
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={handleOpenBoard(board.id)}>View Board</Button>
+        <Button size="small" onClick={handleOpenBoard(board.id)}>
+          View Board
+        </Button>
         <Button size="small" onClick={handleDeleteBoard(board.id)}>
           Delete
         </Button>
