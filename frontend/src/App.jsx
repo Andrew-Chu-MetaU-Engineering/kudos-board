@@ -4,59 +4,43 @@ import OptionsBanner from "./OptionsBanner";
 import BoardModal from "./BoardModal";
 
 export default function App() {
-  const [boardData, setBoardData] = useState([
-    // placeholder data
-    {
-      id: 0,
-      title: "a",
-      description: "celebration board",
-      category: "celebration",
-      image: "image0",
-      author: "author0",
-    },
-    {
-      id: 1,
-      title: "b",
-      description: "thank you board",
-      category: "thank-you",
-      image: "image1",
-      author: "author1",
-    },
-    {
-      id: 2,
-      title: "c",
-      description: "inspiration board",
-      category: "inspiration",
-      image: "image2",
-      author: "author2",
-    },
-    {
-      id: 3,
-      title: "d",
-      description: "thank you board 2",
-      category: "thank-you",
-      image: "image3",
-      author: "author3",
-    },
-  ]);
-  const [searchedBoards, setSearchedBoards] = useState(boardData);
+  const [boards, setBoards] = useState([]);
+  const [searchedBoards, setSearchedBoards] = useState(boards);
   const [displayedBoards, setDisplayedBoards] = useState(searchedBoards);
   const [filterOption, setFilterOption] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [displayBoardModal, setDisplayBoardModal] = useState(false);
+  const databaseAPI = "http://localhost:5000";
 
   useEffect(() => {
-    console.log(boardData);
+    fetchBoards();
+  }, []);
+
+  async function fetchBoards() {
+    try {
+      const response = await fetch(`${databaseAPI}/boards`);
+      if (!response.ok) {
+        throw new Error(`HTTP error. Status ${response.status}`);
+      }
+      const data = await response.json();
+      setBoards(data);
+    } catch (error) {
+      console.error("Error fetching boards:", error);
+    }
+  }
+
+  useEffect(() => {
+    console.log(boards);
     if (searchQuery) {
       setSearchedBoards(
-        boardData.filter((board) =>
+        boards.filter((board) =>
           board.title.toLocaleLowerCase().includes(searchQuery)
         )
       );
     } else {
-      setSearchedBoards(boardData);
+      setSearchedBoards(boards);
     }
-  }, [searchQuery, boardData]);
+  }, [searchQuery, boards]);
 
   useEffect(() => {
     if (["celebration", "thank-you", "inspiration"].includes(filterOption)) {
@@ -89,18 +73,55 @@ export default function App() {
   }
 
   function handleDeleteBoard(id) {
-    return () => {
-      console.log("delete", id);
-      setBoardData(boardData.filter((board) => board.id !== id));
-      setDisplayedBoards(displayedBoards.filter((board) => board.id !== id));
+    return async () => {
+      try {
+        const response = await fetch(`${databaseAPI}/boards/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error. Status ${response.status}`);
+        }
+
+        fetchBoards();
+      } catch (error) {
+        console.error("Error deleting board:", error);
+      }
     };
   }
-  function handleBoardCreation(e) {
+
+  async function handleBoardCreation(e) {
     e.preventDefault();
 
-    const form = e.target;
-    const formData = new FormData(form);
-    setBoardData([...boardData, { ...formData }]); // TODO unique key prop!
+    try {
+      const form = e.target;
+      const formData = new FormData(form);
+      const response = await fetch(`${databaseAPI}/boards`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: formData.get("title"),
+          description: formData.get("description"),
+          imageUrl: formData.get("description"),
+          author: formData.get("author"),
+          category: formData.get("category"),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error. Status ${response.status}`);
+      }
+
+      fetchBoards();
+      setDisplayBoardModal(false);
+    } catch (error) {
+      console.error("Error creating board:", error);
+    }
   }
 
   return (

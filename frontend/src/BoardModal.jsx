@@ -26,12 +26,12 @@ export default function BoardModal({
       <form id="modal-form" onSubmit={handleBoardCreation}>
         <TextField required name="title" label="Title" />
         <TextField required name="description" label="Description" />
-        <TextField required name="image" label="Image" />
+        <TextField required name="imageUrl" label="Image" />
         <TextField name="author" label="Author" />
 
         <FormControl fullWidth>
           <InputLabel>Category *</InputLabel>
-          <Select name="category" defaultValue="">
+          <Select required name="category" defaultValue="">
             <MenuItem value="celebration">Celebration</MenuItem>
             <MenuItem value="thank-you">Thank You</MenuItem>
             <MenuItem value="inspiration">Inspiration</MenuItem>
