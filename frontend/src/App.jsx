@@ -4,11 +4,14 @@ import OptionsBanner from "./OptionsBanner";
 import BoardModal from "./BoardModal";
 
 export default function App() {
+  const DATABASE_BASE_URL = new URL("http://localhost:5000");
+  const BOARDS_URL = new URL("boards", DATABASE_BASE_URL);
+
   const [boards, setBoards] = useState([]);
   const [filterOption, setFilterOption] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [displayBoardModal, setDisplayBoardModal] = useState(false);
-  const databaseAPI = "http://localhost:5000";
+  const [displayedBoard, setDisplayedBoard] = useState(null);
 
   useEffect(() => {
     fetchBoards();
@@ -16,7 +19,7 @@ export default function App() {
 
   async function fetchBoards() {
     try {
-      let url = new URL(`${databaseAPI}/boards`);
+      let url = new URL(BOARDS_URL);
       if (["celebration", "thank-you", "inspiration"].includes(filterOption)) {
         url.searchParams.append("category", filterOption);
       } else if (filterOption === "recent") {
@@ -38,6 +41,19 @@ export default function App() {
     }
   }
 
+  async function fetchBoard(id) {
+    try {
+      const response = await fetch(new URL(`boards/${id}`, BOARDS_URL));
+      if (!response.ok) {
+        throw new Error(`HTTP error. Status ${response.status}`);
+      }
+      const board = await response.json();
+      setDisplayedBoard(board);
+    } catch (error) {
+      console.error("Error fetching boards:", error);
+    }
+  }
+
   function handleSearchQuery(e) {
     setSearchQuery(e.target.value);
   }
@@ -51,32 +67,26 @@ export default function App() {
   }
 
   function handleOpenBoard(id) {
-    // TODO fn is not directly a handler
-    return () => {
-      // TODO implement board page
-    };
+    fetchBoard(id);
   }
 
-  function handleDeleteBoard(id) {
-    // TODO fn is not directly a handler
-    return async () => {
-      try {
-        const response = await fetch(`${databaseAPI}/boards/${id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-type": "application/json",
-          },
-        });
+  async function handleDeleteBoard(id) {
+    try {
+      const response = await fetch(new URL(`boards/${id}`, BOARDS_URL), {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error. Status ${response.status}`);
-        }
-
-        fetchBoards();
-      } catch (error) {
-        console.error("Error deleting board:", error);
+      if (!response.ok) {
+        throw new Error(`HTTP error. Status ${response.status}`);
       }
-    };
+
+      fetchBoards();
+    } catch (error) {
+      console.error("Error deleting board:", error);
+    }
   }
 
   async function handleBoardCreation(e) {
@@ -85,7 +95,7 @@ export default function App() {
     try {
       const form = e.target;
       const formData = new FormData(form);
-      const response = await fetch(`${databaseAPI}/boards`, {
+      const response = await fetch(BOARDS_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,6 +122,9 @@ export default function App() {
 
   return (
     <>
+      <header>
+        <h1>Kudos Board</h1>
+      </header>
       <OptionsBanner
         filterOption={filterOption}
         handleFilterChange={handleFilterChange}
@@ -136,6 +149,9 @@ export default function App() {
           setDisplayBoardModal={setDisplayBoardModal}
         />
       )}
+      <footer>
+        <h2>Kudos Board Footer</h2>
+      </footer>
     </>
   );
 }

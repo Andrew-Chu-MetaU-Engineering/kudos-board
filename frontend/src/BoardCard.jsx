@@ -30,10 +30,10 @@ export default function BoardCard({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={handleOpenBoard(board.id)}>
+        <Button size="small" onClick={() => handleOpenBoard(board.id)}>
           View Board
         </Button>
-        <Button size="small" onClick={handleDeleteBoard(board.id)}>
+        <Button size="small" onClick={() => handleDeleteBoard(board.id)}>
           Delete
         </Button>
       </CardActions>
