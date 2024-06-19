@@ -5,8 +5,6 @@ import BoardModal from "./BoardModal";
 
 export default function App() {
   const [boards, setBoards] = useState([]);
-  const [searchedBoards, setSearchedBoards] = useState(boards);
-  const [displayedBoards, setDisplayedBoards] = useState(searchedBoards);
   const [filterOption, setFilterOption] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [displayBoardModal, setDisplayBoardModal] = useState(false);
@@ -14,11 +12,22 @@ export default function App() {
 
   useEffect(() => {
     fetchBoards();
-  }, []);
+  }, [filterOption, searchQuery]);
 
   async function fetchBoards() {
     try {
-      const response = await fetch(`${databaseAPI}/boards`);
+      let url = new URL(`${databaseAPI}/boards`);
+      if (["celebration", "thank-you", "inspiration"].includes(filterOption)) {
+        url.searchParams.append("category", filterOption);
+      } else if (filterOption === "recent") {
+        // TODO implement recent sorting
+      }
+
+      if (searchQuery.length > 0) {
+        url.searchParams.append("search", searchQuery);
+      }
+
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error. Status ${response.status}`);
       }
@@ -28,31 +37,6 @@ export default function App() {
       console.error("Error fetching boards:", error);
     }
   }
-
-  useEffect(() => {
-    console.log(boards);
-    if (searchQuery) {
-      setSearchedBoards(
-        boards.filter((board) =>
-          board.title.toLocaleLowerCase().includes(searchQuery)
-        )
-      );
-    } else {
-      setSearchedBoards(boards);
-    }
-  }, [searchQuery, boards]);
-
-  useEffect(() => {
-    if (["celebration", "thank-you", "inspiration"].includes(filterOption)) {
-      setDisplayedBoards(
-        searchedBoards.filter((board) => board.category === filterOption)
-      );
-    } else if (filterOption === "recent") {
-      // TODO implement recent sorting
-    } else {
-      setDisplayedBoards(searchedBoards);
-    }
-  }, [filterOption, searchedBoards]);
 
   function handleSearchQuery(e) {
     setSearchQuery(e.target.value);
@@ -67,12 +51,14 @@ export default function App() {
   }
 
   function handleOpenBoard(id) {
+    // TODO fn is not directly a handler
     return () => {
       // TODO implement board page
     };
   }
 
   function handleDeleteBoard(id) {
+    // TODO fn is not directly a handler
     return async () => {
       try {
         const response = await fetch(`${databaseAPI}/boards/${id}`, {
@@ -134,7 +120,7 @@ export default function App() {
         handleAddBoard={handleAddBoard}
       />
 
-      {displayedBoards.map((board) => (
+      {boards.map((board) => (
         <BoardCard
           key={board.id}
           board={board}

@@ -9,7 +9,17 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/boards", async (req, res) => {
-  const boards = await prisma.board.findMany();
+  const boards = await prisma.board.findMany({
+    where: {
+      title: {
+        contains: req.query.search,
+        mode: "insensitive",
+      },
+      category: {
+        equals: req.query.category,
+      },
+    },
+  });
   res.status(200).json(boards);
 });
 
@@ -23,7 +33,6 @@ app.get("/boards/:id", async (req, res) => {
 
 app.post("/boards", async (req, res) => {
   const { title, description, category, imageUrl } = req.body;
-  console.log(req.body);
   const newBoard = await prisma.board.create({
     data: {
       title,
