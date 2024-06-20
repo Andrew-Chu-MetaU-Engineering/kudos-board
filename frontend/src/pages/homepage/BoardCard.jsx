@@ -1,3 +1,4 @@
+import { Link as RouterLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Card from "@mui/material/Card";
@@ -7,11 +8,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function BoardCard({
-  board,
-  handleOpenBoard,
-  handleDeleteBoard,
-}) {
+export default function BoardCard({ board, handleDeleteBoard }) {
   const { id, title, description } = board;
 
   return (
@@ -32,7 +29,7 @@ export default function BoardCard({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => handleOpenBoard(id)}>
+        <Button component={RouterLink} to={`/board/${id}`} hrefsize="small">
           View Board
         </Button>
         <Button size="small" onClick={() => handleDeleteBoard(id)}>
@@ -45,6 +42,5 @@ export default function BoardCard({
 
 BoardCard.propTypes = {
   board: PropTypes.object.isRequired,
-  handleOpenBoard: PropTypes.func.isRequired,
   handleDeleteBoard: PropTypes.func.isRequired,
 };
