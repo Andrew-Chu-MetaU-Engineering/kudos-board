@@ -20,21 +20,26 @@ model Board {
 }
 
 model Card {
-  id       Int    @id @default(autoincrement())
-  Board    Board? @relation(fields: [boardId], references: [id])
-  boardId  Int?
-  author   User?  @relation(fields: [authorId], references: [id])
-  authorId Int?
-  likes    Like[]
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  imageUrl    String
+  board       Board     @relation(fields: [boardId], references: [id])
+  boardId     Int
+  author      User?     @relation(fields: [authorId], references: [id])
+  authorId    Int?
+  likes       Like[]
+  comments    Comment[]
 }
 
 model User {
-  id             Int     @id @default(autoincrement())
-  username       String  @unique
+  id             Int       @id @default(autoincrement())
+  username       String    @unique
   password       String
   authoredBoards Board[]
   authoredCards  Card[]
   likedCards     Like[]
+  comments       Comment[]
 }
 
 model Like {
@@ -44,4 +49,14 @@ model Like {
   userId Int
 
   @@id([cardId, userId])
+}
+
+model Comment {
+  text     String
+  card     Card   @relation(fields: [cardId], references: [id])
+  cardId   Int
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  @@id([cardId, authorId])
 }
