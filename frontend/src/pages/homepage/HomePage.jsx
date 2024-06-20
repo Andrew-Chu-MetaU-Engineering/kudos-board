@@ -85,7 +85,7 @@ export default function HomePage() {
         body: JSON.stringify({
           title: formData.get("title"),
           description: formData.get("description"),
-          imageUrl: formData.get("description"),
+          imageUrl: formData.get("imageUrl"),
           author: formData.get("author"),
           category: formData.get("category"),
         }),

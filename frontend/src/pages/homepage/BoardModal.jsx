@@ -17,12 +17,7 @@ export default function BoardModal({
   setDisplayBoardModal,
 }) {
   return (
-    <Modal
-      open={displayBoardModal}
-      onClose={() => setDisplayBoardModal(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open={displayBoardModal} onClose={() => setDisplayBoardModal(false)}>
       <form id="modal-form" onSubmit={handleBoardCreation}>
         <TextField required name="title" label="Title" />
         <TextField required name="description" label="Description" />

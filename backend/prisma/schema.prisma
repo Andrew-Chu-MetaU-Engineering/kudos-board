@@ -13,50 +13,19 @@ model Board {
   description String
   category    String
   imageUrl    String
-  createdAt   DateTime @default(now())
-  author      User?    @relation(fields: [authorId], references: [id])
-  authorId    Int?
+  author      String?
   cards       Card[]
+  createdAt   DateTime @default(now())
 }
 
 model Card {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
+  board       Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId     Int
   title       String
   description String
   imageUrl    String
-  board       Board     @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  boardId     Int
-  author      User?     @relation(fields: [authorId], references: [id])
-  authorId    Int?
-  likes       Like[]
-  comments    Comment[]
-}
-
-model User {
-  id             Int       @id @default(autoincrement())
-  username       String    @unique
-  password       String
-  authoredBoards Board[]
-  authoredCards  Card[]
-  likedCards     Like[]
-  comments       Comment[]
-}
-
-model Like {
-  card   Card @relation(fields: [cardId], references: [id])
-  cardId Int
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  @@id([cardId, userId])
-}
-
-model Comment {
-  text     String
-  card     Card   @relation(fields: [cardId], references: [id])
-  cardId   Int
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId Int
-
-  @@id([cardId, authorId])
+  author      String?
+  upvotes     Int      @default(0)
+  comments    String[]
 }

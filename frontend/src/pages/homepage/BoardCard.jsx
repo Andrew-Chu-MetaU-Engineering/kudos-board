@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function BoardCard({ board, handleDeleteBoard }) {
-  const { id, title, description } = board; // TODO imageUrl
+  const { id, title, description, imageUrl, author } = board;
 
   return (
     <Card>
@@ -19,11 +19,14 @@ export default function BoardCard({ board, handleDeleteBoard }) {
         alt="TODO"
         height="140"
         width="140"
-        image="https://placehold.co/400"
+        image={imageUrl}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          {author}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {description}
