@@ -7,9 +7,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function BoardCard({ board, handleDeleteBoard }) {
-  const { id, title, description } = board;
+  const { id, title, description } = board; // TODO imageUrl
 
   return (
     <Card>
@@ -32,7 +33,12 @@ export default function BoardCard({ board, handleDeleteBoard }) {
         <Button component={RouterLink} to={`/board/${id}`} hrefsize="small">
           View Board
         </Button>
-        <Button size="small" onClick={() => handleDeleteBoard(id)}>
+        <Button
+          size="small"
+          onClick={() => handleDeleteBoard(id)}
+          startIcon={<DeleteIcon />}
+          variant="outlined"
+        >
           Delete
         </Button>
       </CardActions>
