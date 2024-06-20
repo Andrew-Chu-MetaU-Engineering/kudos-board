@@ -24,7 +24,7 @@ model Card {
   title       String
   description String
   imageUrl    String
-  board       Board     @relation(fields: [boardId], references: [id])
+  board       Board     @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId     Int
   author      User?     @relation(fields: [authorId], references: [id])
   authorId    Int?
