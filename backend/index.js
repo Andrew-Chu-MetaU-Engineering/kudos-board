@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/boards", async (req, res) => {
-  const { query, category } = req.query;
+  const { query, category, recent } = req.query;
   const boards = await prisma.board.findMany({
     where: {
       title: {
@@ -20,6 +20,11 @@ app.get("/boards", async (req, res) => {
         equals: category,
       },
     },
+    ...(recent && {
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
     include: {
       cards: true,
     },

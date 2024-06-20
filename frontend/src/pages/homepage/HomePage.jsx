@@ -22,7 +22,7 @@ export default function HomePage() {
       if (["celebration", "thank-you", "inspiration"].includes(filterOption)) {
         url.searchParams.append("category", filterOption);
       } else if (filterOption === "recent") {
-        // TODO implement recent sorting
+        url.searchParams.append("recent", true);
       }
 
       if (searchQuery.length > 0) {
