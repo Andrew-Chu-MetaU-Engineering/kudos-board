@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import BoardCard from "./BoardCard";
 import OptionsBanner from "./OptionsBanner";
 import BoardModal from "./BoardModal";
+import Card from "./Card";
 
 export default function App() {
   const DATABASE_BASE_URL = new URL("http://localhost:5000");
@@ -27,7 +28,7 @@ export default function App() {
       }
 
       if (searchQuery.length > 0) {
-        url.searchParams.append("search", searchQuery);
+        url.searchParams.append("query", searchQuery);
       }
 
       const response = await fetch(url);
@@ -125,6 +126,15 @@ export default function App() {
       <header>
         <h1>Kudos Board</h1>
       </header>
+
+      {displayedBoard &&
+        displayedBoard.cards.map((card) => (
+          <Card
+            key={card.id}
+            card={card}
+          />
+        ))}
+
       <OptionsBanner
         filterOption={filterOption}
         handleFilterChange={handleFilterChange}

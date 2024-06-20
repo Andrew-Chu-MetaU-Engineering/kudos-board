@@ -1,27 +1,22 @@
 import PropTypes from "prop-types";
 
-import Card from "@mui/material/Card";
+import MuiCard from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function BoardCard({
-  board,
-  handleOpenBoard,
-  handleDeleteBoard,
-}) {
-  const { id, title, description } = board;
-
+function Card({ card }) {
+  const { title, description, imageUrl } = card;
   return (
-    <Card>
+    <MuiCard>
       <CardMedia // TODO edit and specify attributes
         component="img"
         alt="TODO"
         height="140"
         width="140"
-        image="https://placehold.co/400"
+        image={imageUrl}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -32,19 +27,15 @@ export default function BoardCard({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => handleOpenBoard(id)}>
-          View Board
-        </Button>
-        <Button size="small" onClick={() => handleDeleteBoard(id)}>
-          Delete
-        </Button>
+        <Button size="small">Upvote</Button>
+        <Button size="small">Delete</Button>
       </CardActions>
-    </Card>
+    </MuiCard>
   );
 }
 
-BoardCard.propTypes = {
-  board: PropTypes.object.isRequired,
-  handleOpenBoard: PropTypes.func.isRequired,
-  handleDeleteBoard: PropTypes.func.isRequired,
+export default Card;
+
+Card.propTypes = {
+  card: PropTypes.object.isRequired,
 };
