@@ -5,9 +5,11 @@ import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+
 import Card from "./Card";
-import CardModal from "./CardModal";
+import AddCardModal from "./AddCardModal";
 import GifSearch from "./GifSearch";
+import CommentsModal from "./CommentsModal";
 
 function BoardPage() {
   const DATABASE_BASE_URL = import.meta.env.VITE_DB_BASE_URL;
@@ -17,6 +19,8 @@ function BoardPage() {
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
   const [displayAddCardModal, setDisplayAddCardModal] = useState(false);
+  const [displayCommentsModal, setDisplayCommentsModal] = useState(false);
+  const [displayCommentsCardId, setDisplayCommentsCardId] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
@@ -40,7 +44,8 @@ function BoardPage() {
     setDisplayAddCardModal(true);
   }
 
-  async function handleDeleteCard(id) {
+  async function handleDeleteCard(e, id) {
+    e.stopPropagation();
     try {
       const response = await fetch(new URL(`cards/${id}`, CARDS_URL), {
         method: "DELETE",
@@ -93,6 +98,7 @@ function BoardPage() {
 
   async function handleUpvoteCard(e, cardId) {
     e.preventDefault();
+    e.stopPropagation();
 
     try {
       const response = await fetch(
@@ -115,6 +121,11 @@ function BoardPage() {
     }
   }
 
+  function openCommentsModal(id) {
+    setDisplayCommentsModal(true);
+    setDisplayCommentsCardId(id);
+  }
+
   return (
     <>
       <Button
@@ -133,17 +144,26 @@ function BoardPage() {
             card={card}
             handleDeleteCard={handleDeleteCard}
             handleUpvoteCard={handleUpvoteCard}
+            openCommentsModal={openCommentsModal}
           />
         ))}
 
-      <CardModal
+      {displayCommentsCardId && (
+        <CommentsModal
+          displayCommentsModal={displayCommentsModal}
+          setDisplayCommentsModal={setDisplayCommentsModal}
+          displayCommentsCardId={displayCommentsCardId}
+        />
+      )}
+
+      <AddCardModal
         handleCardCreation={handleCardCreation}
-        displayCardModal={displayAddCardModal}
-        setDisplayCardModal={setDisplayAddCardModal}
+        displayAddCardModal={displayAddCardModal}
+        setDisplayAddCardModal={setDisplayAddCardModal}
         imageUrl={imageUrl}
       >
         <GifSearch setImageUrl={setImageUrl} />
-      </CardModal>
+      </AddCardModal>
 
       <Fab onClick={handleAddCard} color="primary" aria-label="add">
         <AddIcon />

@@ -1,17 +1,20 @@
 import PropTypes from "prop-types";
 import { Button, Modal, TextField } from "@mui/material";
 
-import "./CardModal.css";
+import "./AddCardModal.css";
 
-export default function CardModal({
+export default function AddCardModal({
   handleCardCreation,
-  displayCardModal,
-  setDisplayCardModal,
+  displayAddCardModal,
+  setDisplayAddCardModal,
   imageUrl,
   children,
 }) {
   return (
-    <Modal open={displayCardModal} onClose={() => setDisplayCardModal(false)}>
+    <Modal
+      open={displayAddCardModal}
+      onClose={() => setDisplayAddCardModal(false)}
+    >
       <form id="modal-form" onSubmit={handleCardCreation}>
         <TextField required name="title" label="Title" />
         <TextField required name="description" label="Description" />
@@ -29,10 +32,10 @@ export default function CardModal({
   );
 }
 
-CardModal.propTypes = {
+AddCardModal.propTypes = {
   handleCardCreation: PropTypes.func.isRequired,
-  displayCardModal: PropTypes.bool.isRequired,
-  setDisplayCardModal: PropTypes.func.isRequired,
+  displayAddCardModal: PropTypes.bool.isRequired,
+  setDisplayAddCardModal: PropTypes.func.isRequired,
   imageUrl: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
 };

@@ -16,7 +16,6 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const card = await prisma.card.findUnique({
     where: { id: parseInt(req.params.id) },
-    include: { likes: true },
   });
   res.status(200).json(card);
 });
@@ -47,6 +46,30 @@ router.put("/:cardId/upvote", async (req, res) => {
     },
   });
   res.status(204).json(upvoteCard);
+});
+
+router.get("/:cardId/comment", async (req, res) => {
+  const card = await prisma.card.findUnique({
+    where: { id: parseInt(req.params.cardId) },
+    select: {
+      comments: true,
+    },
+  });
+  res.status(200).json(card);
+});
+
+router.put("/:cardId/comment", async (req, res) => {
+  const commentCard = await prisma.card.update({
+    where: {
+      id: parseInt(req.params.cardId),
+    },
+    data: {
+      comments: {
+        push: req.body.comment,
+      },
+    },
+  });
+  res.status(204).json(commentCard);
 });
 
 router.delete("/:id", async (req, res) => {

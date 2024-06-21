@@ -26,7 +26,11 @@ router.get("/", async (req, res) => {
       },
     }),
     include: {
-      cards: true,
+      cards: {
+        orderBy: {
+          upvotes: "desc"
+        }
+      },
     },
   });
   res.status(200).json(boards);
@@ -35,7 +39,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const board = await prisma.board.findUnique({
     where: { id: parseInt(req.params.id) },
-    include: { cards: true },
+    include: { cards: {
+      orderBy: {
+        upvotes: "desc"
+      }
+    }},
   });
   res.status(200).json(board);
 });
