@@ -22,37 +22,38 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, description, imageUrl, boardId } = req.body;
+  const { title, description, imageUrl, author, boardId } = req.body;
   const newCard = await prisma.card.create({
     data: {
       title,
       description,
       imageUrl,
+      author,
       boardId: parseInt(boardId),
     },
   });
   res.status(201).json(newCard);
 });
 
-router.post("/:cardId/like", async (req, res) => {
-  const newLike = await prisma.like.create({
+router.put("/:cardId/upvote", async (req, res) => {
+  const upvoteCard = await prisma.card.update({
+    where: {
+      id: parseInt(req.params.cardId),
+    },
     data: {
-      card: {
-        connect: {
-          id: parseInt(req.params.cardId),
-        },
+      upvotes: {
+        increment: 1,
       },
-      user: req.body.userId,
     },
   });
-  res.status(201).json(newLike);
+  res.status(204).json(upvoteCard);
 });
 
 router.delete("/:id", async (req, res) => {
   const deletedCard = await prisma.card.delete({
     where: { id: parseInt(req.params.id) },
   });
-  res.json(deletedCard);
+  res.status(204).json(deletedCard);
 });
 
 module.exports = router;

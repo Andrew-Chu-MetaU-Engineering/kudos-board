@@ -9,13 +9,8 @@ import Typography from "@mui/material/Typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function Card({ card, handleDeleteCard }) {
-  const { id, title, description, imageUrl } = card;
-
-  function handleUpvoteCard() {
-    // TODO handle upvote card
-  }
-
+function Card({ card, handleDeleteCard, handleUpvoteCard }) {
+  const { id, title, description, imageUrl, author, upvotes } = card;
   return (
     <MuiCard>
       <CardMedia // TODO edit and specify attributes
@@ -29,6 +24,9 @@ function Card({ card, handleDeleteCard }) {
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
+        <Typography variant="body1" color="text.secondary">
+          {author}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
@@ -36,12 +34,13 @@ function Card({ card, handleDeleteCard }) {
       <CardActions>
         <Button
           size="small"
-          onClick={handleUpvoteCard}
+          onClick={(e) => handleUpvoteCard(e, id)}
           startIcon={<ThumbUpIcon />}
           variant="contained"
         >
-          Upvote
+          {upvotes}
         </Button>
+
         <Button
           size="small"
           onClick={() => handleDeleteCard(id)}
@@ -60,4 +59,5 @@ export default Card;
 Card.propTypes = {
   card: PropTypes.object.isRequired,
   handleDeleteCard: PropTypes.func.isRequired,
+  handleUpvoteCard: PropTypes.func.isRequired,
 };

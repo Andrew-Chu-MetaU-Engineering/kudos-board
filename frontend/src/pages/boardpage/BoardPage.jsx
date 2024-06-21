@@ -15,7 +15,7 @@ function BoardPage() {
 
   useEffect(() => {
     fetchBoard();
-  }, [board]);
+  }, []);
 
   async function fetchBoard() {
     try {
@@ -84,14 +84,44 @@ function BoardPage() {
     }
   }
 
+  async function handleUpvoteCard(e, cardId) {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        new URL(`/cards/${cardId}/upvote`, CARDS_URL),
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error. Status ${response.status}`);
+      }
+
+      fetchBoard();
+    } catch (error) {
+      console.error("Error creating board:", error);
+    }
+  }
+
   return (
     <>
       <Button onClick={handleAddCard} variant="contained">
         Add Card
       </Button>
+
       {board &&
         board.cards.map((card) => (
-          <Card key={card.id} card={card} handleDeleteCard={handleDeleteCard} />
+          <Card
+            key={card.id}
+            card={card}
+            handleDeleteCard={handleDeleteCard}
+            handleUpvoteCard={handleUpvoteCard}
+          />
         ))}
 
       {
