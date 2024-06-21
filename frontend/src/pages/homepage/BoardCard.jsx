@@ -33,7 +33,7 @@ export default function BoardCard({ board, handleDeleteBoard }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button component={RouterLink} to={`/board/${id}`} hrefsize="small">
+        <Button component={RouterLink} to={`/board/${id}`} variant="contained">
           View Board
         </Button>
         <Button

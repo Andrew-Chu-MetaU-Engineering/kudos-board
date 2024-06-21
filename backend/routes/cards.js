@@ -28,11 +28,7 @@ router.post("/", async (req, res) => {
       title,
       description,
       imageUrl,
-      board: {
-        connect: {
-          id: boardId,
-        },
-      },
+      boardId: parseInt(boardId),
     },
   });
   res.status(201).json(newCard);

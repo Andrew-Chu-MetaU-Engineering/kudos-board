@@ -120,13 +120,11 @@ export default function HomePage() {
         />
       ))}
 
-      {displayBoardModal && (
-        <BoardModal
-          handleBoardCreation={handleBoardCreation}
-          displayBoardModal={displayBoardModal}
-          setDisplayBoardModal={setDisplayBoardModal}
-        />
-      )}
+      <BoardModal
+        handleBoardCreation={handleBoardCreation}
+        displayBoardModal={displayBoardModal}
+        setDisplayBoardModal={setDisplayBoardModal}
+      />
     </>
   );
 }
