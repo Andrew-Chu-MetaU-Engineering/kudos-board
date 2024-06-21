@@ -4,8 +4,7 @@ import OptionsBanner from "./OptionsBanner";
 import BoardModal from "./BoardModal";
 
 export default function HomePage() {
-  const DATABASE_BASE_URL = new URL("http://localhost:5000");
-  const BOARDS_URL = new URL("boards", DATABASE_BASE_URL);
+  const BOARDS_URL = new URL("boards", import.meta.env.VITE_DB_BASE_URL);
 
   const [boards, setBoards] = useState([]);
   const [filterOption, setFilterOption] = useState("all");

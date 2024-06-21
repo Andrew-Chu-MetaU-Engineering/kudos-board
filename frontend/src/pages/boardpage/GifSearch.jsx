@@ -3,15 +3,13 @@ import PropTypes from "prop-types";
 import { Button, TextField } from "@mui/material";
 
 function GifSearch({ setImageUrl }) {
-  const GIPHY_URL = new URL("http://api.giphy.com/v1/gifs/search");
-  const GIPHY_KEY = "REDACTED";
   const [gifs, setGifs] = useState(null);
   const [giphyQuery, setGiphyQuery] = useState("");
 
   async function fetchGifs() {
     try {
-      let url = new URL(GIPHY_URL);
-      url.searchParams.append("api_key", GIPHY_KEY);
+      let url = new URL(import.meta.env.VITE_GIPHY_URL);
+      url.searchParams.append("api_key", import.meta.env.VITE_GIPHY_KEY);
       url.searchParams.append("q", giphyQuery);
       url.searchParams.append("limit", 6);
 

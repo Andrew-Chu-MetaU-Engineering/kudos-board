@@ -10,7 +10,7 @@ import CardModal from "./CardModal";
 import GifSearch from "./GifSearch";
 
 function BoardPage() {
-  const DATABASE_BASE_URL = new URL("http://localhost:5000");
+  const DATABASE_BASE_URL = import.meta.env.VITE_DB_BASE_URL;
   const BOARDS_URL = new URL("boards", DATABASE_BASE_URL);
   const CARDS_URL = new URL("cards", DATABASE_BASE_URL);
 
