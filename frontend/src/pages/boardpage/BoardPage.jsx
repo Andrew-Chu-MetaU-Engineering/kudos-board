@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Card from "./Card";
 import CardModal from "./CardModal";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import Card from "./Card";
 
 function BoardPage() {
   const DATABASE_BASE_URL = new URL("http://localhost:5000");
@@ -110,8 +114,13 @@ function BoardPage() {
 
   return (
     <>
-      <Button onClick={handleAddCard} variant="contained">
-        Add Card
+      <Button
+        component={RouterLink}
+        to={"/"}
+        startIcon={<NavigateBeforeIcon />}
+        variant="outlined"
+      >
+        Back
       </Button>
 
       {board &&
@@ -124,13 +133,15 @@ function BoardPage() {
           />
         ))}
 
-      {
-        <CardModal
-          handleCardCreation={handleCardCreation}
-          displayCardModal={displayCardModal}
-          setDisplayCardModal={setDisplayCardModal}
-        />
-      }
+      <CardModal
+        handleCardCreation={handleCardCreation}
+        displayCardModal={displayCardModal}
+        setDisplayCardModal={setDisplayCardModal}
+      />
+
+      <Fab onClick={handleAddCard} color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
     </>
   );
 }
