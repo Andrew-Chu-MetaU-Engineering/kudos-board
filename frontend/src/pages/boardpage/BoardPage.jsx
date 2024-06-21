@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import Button from "@mui/material/Button";
-import CardModal from "./CardModal";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import Card from "./Card";
+import CardModal from "./CardModal";
+import GifSearch from "./GifSearch";
 
 function BoardPage() {
   const DATABASE_BASE_URL = new URL("http://localhost:5000");
@@ -15,7 +16,8 @@ function BoardPage() {
 
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
-  const [displayCardModal, setDisplayCardModal] = useState(false);
+  const [displayAddCardModal, setDisplayAddCardModal] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     fetchBoard();
@@ -35,7 +37,7 @@ function BoardPage() {
   }
 
   function handleAddCard() {
-    setDisplayCardModal(true);
+    setDisplayAddCardModal(true);
   }
 
   async function handleDeleteCard(id) {
@@ -82,7 +84,8 @@ function BoardPage() {
       }
 
       fetchBoard();
-      setDisplayCardModal(false);
+      setDisplayAddCardModal(false);
+      setImageUrl("");
     } catch (error) {
       console.error("Error creating board:", error);
     }
@@ -135,9 +138,12 @@ function BoardPage() {
 
       <CardModal
         handleCardCreation={handleCardCreation}
-        displayCardModal={displayCardModal}
-        setDisplayCardModal={setDisplayCardModal}
-      />
+        displayCardModal={displayAddCardModal}
+        setDisplayCardModal={setDisplayAddCardModal}
+        imageUrl={imageUrl}
+      >
+        <GifSearch setImageUrl={setImageUrl} />
+      </CardModal>
 
       <Fab onClick={handleAddCard} color="primary" aria-label="add">
         <AddIcon />
