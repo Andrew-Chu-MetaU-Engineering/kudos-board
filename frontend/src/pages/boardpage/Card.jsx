@@ -13,47 +13,45 @@ function Card({ card, handleDeleteCard, handleUpvoteCard, openCommentsModal }) {
   const { id, title, description, imageUrl, author, upvotes } = card;
 
   return (
-    <>
-      <MuiCard onClick={() => openCommentsModal(id)}>
-        <CardMedia // TODO edit and specify attributes
-          component="img"
-          alt="TODO"
-          height="140"
-          width="140"
-          image={imageUrl}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            {author}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            size="small"
-            onClick={(e) => handleUpvoteCard(e, id)}
-            startIcon={<ThumbUpIcon />}
-            variant="contained"
-          >
-            {upvotes}
-          </Button>
+    <MuiCard onClick={() => openCommentsModal(id)} className="single-card">
+      <CardMedia // TODO edit and specify attributes
+        component="img"
+        alt="TODO"
+        height="140"
+        width="140"
+        image={imageUrl}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          {author}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          size="small"
+          onClick={(e) => handleUpvoteCard(e, id)}
+          startIcon={<ThumbUpIcon />}
+          variant="contained"
+        >
+          {upvotes}
+        </Button>
 
-          <Button
-            size="small"
-            onClick={(e) => handleDeleteCard(e, id)}
-            startIcon={<DeleteIcon />}
-            variant="outlined"
-          >
-            Delete
-          </Button>
-        </CardActions>
-      </MuiCard>{" "}
-    </>
+        <Button
+          size="small"
+          onClick={(e) => handleDeleteCard(e, id)}
+          startIcon={<DeleteIcon />}
+          variant="outlined"
+        >
+          Delete
+        </Button>
+      </CardActions>
+    </MuiCard>
   );
 }
 

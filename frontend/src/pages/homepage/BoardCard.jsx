@@ -8,12 +8,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "./BoardCard.css"
 
 export default function BoardCard({ board, handleDeleteBoard }) {
   const { id, title, description, imageUrl, author } = board;
 
   return (
-    <Card>
+    <Card className="card">
       <CardMedia // TODO edit and specify attributes
         component="img"
         alt="TODO"
@@ -32,7 +33,7 @@ export default function BoardCard({ board, handleDeleteBoard }) {
           {description}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className="actions">
         <Button component={RouterLink} to={`/board/${id}`} variant="contained">
           View Board
         </Button>

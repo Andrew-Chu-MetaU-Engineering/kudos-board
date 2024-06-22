@@ -10,6 +10,7 @@ import Card from "./Card";
 import AddCardModal from "./AddCardModal";
 import GifSearch from "./GifSearch";
 import CommentsModal from "./CommentsModal";
+import "./BoardPage.css";
 
 function BoardPage() {
   const DATABASE_BASE_URL = import.meta.env.VITE_DB_BASE_URL;
@@ -128,25 +129,32 @@ function BoardPage() {
 
   return (
     <>
-      <Button
-        component={RouterLink}
-        to={"/"}
-        startIcon={<NavigateBeforeIcon />}
-        variant="outlined"
-      >
-        Back
-      </Button>
+      <div id="back-add-buttons">
+        <Button
+          component={RouterLink}
+          to={"/"}
+          startIcon={<NavigateBeforeIcon />}
+          variant="outlined"
+        >
+          Back
+        </Button>{" "}
+        <Fab onClick={handleAddCard} color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </div>
 
-      {board &&
-        board.cards.map((card) => (
-          <Card
-            key={card.id}
-            card={card}
-            handleDeleteCard={handleDeleteCard}
-            handleUpvoteCard={handleUpvoteCard}
-            openCommentsModal={openCommentsModal}
-          />
-        ))}
+      <section id="card-wrapper">
+        {board &&
+          board.cards.map((card) => (
+            <Card
+              key={card.id}
+              card={card}
+              handleDeleteCard={handleDeleteCard}
+              handleUpvoteCard={handleUpvoteCard}
+              openCommentsModal={openCommentsModal}
+            />
+          ))}
+      </section>
 
       {displayCommentsCardId && (
         <CommentsModal
@@ -155,7 +163,6 @@ function BoardPage() {
           displayCommentsCardId={displayCommentsCardId}
         />
       )}
-
       <AddCardModal
         handleCardCreation={handleCardCreation}
         displayAddCardModal={displayAddCardModal}
@@ -164,10 +171,6 @@ function BoardPage() {
       >
         <GifSearch setImageUrl={setImageUrl} />
       </AddCardModal>
-
-      <Fab onClick={handleAddCard} color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
     </>
   );
 }

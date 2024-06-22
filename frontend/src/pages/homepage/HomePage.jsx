@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import BoardCard from "./BoardCard";
 import OptionsBanner from "./OptionsBanner";
 import BoardModal from "./BoardModal";
+import "./HomePage.css";
 
 export default function HomePage() {
   const BOARDS_URL = new URL("boards", import.meta.env.VITE_DB_BASE_URL);
@@ -102,7 +103,7 @@ export default function HomePage() {
   }
 
   return (
-    <>
+    <section id="home">
       <OptionsBanner
         filterOption={filterOption}
         handleFilterChange={handleFilterChange}
@@ -111,19 +112,22 @@ export default function HomePage() {
         handleAddBoard={handleAddBoard}
       />
 
-      {boards.map((board) => (
-        <BoardCard
-          key={board.id}
-          board={board}
-          handleDeleteBoard={handleDeleteBoard}
-        />
-      ))}
+      <section id="boards">
+        {boards.map((board) => (
+          <BoardCard
+            key={board.id}
+            board={board}
+            handleDeleteBoard={handleDeleteBoard}
+            className="card"
+          />
+        ))}
+      </section>
 
       <BoardModal
         handleBoardCreation={handleBoardCreation}
         displayBoardModal={displayBoardModal}
         setDisplayBoardModal={setDisplayBoardModal}
       />
-    </>
+    </section>
   );
 }

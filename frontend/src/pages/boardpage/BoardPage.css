@@ -1,0 +1,21 @@
+.single-card {
+  margin: 1rem;
+  width: 18rem;
+}
+
+#back-add-buttons {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+}
+
+#back-add-buttons > * {
+  margin: 1rem;
+}
+
+#card-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}

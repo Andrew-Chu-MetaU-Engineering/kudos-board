@@ -1,0 +1,42 @@
+header {
+  top: 0;
+  width: 100%;
+  font-family: cursive;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header > h1 {
+  color: dodgerblue;
+}
+
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+#app {
+  min-height: 100%;
+  position: relative;
+}
+
+#body {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 18rem;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 14rem;
+  background: linear-gradient(ghostwhite, dodgerblue);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}

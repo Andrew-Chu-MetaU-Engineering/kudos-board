@@ -74,10 +74,12 @@ export default function CommentsModal({
           {comments &&
             comments.map((comment, index) => <li key={index}>{comment}</li>)}
         </ul>
-        <TextField required name="comment" label="Comment" />
-        <Button type="submit" variant="outlined">
-          Add Comment
-        </Button>
+        <div id="add-comment">
+          <TextField required name="comment" label="Comment" />
+          <Button type="submit" variant="outlined">
+            Add Comment
+          </Button>
+        </div>
       </form>
     </Modal>
   );
