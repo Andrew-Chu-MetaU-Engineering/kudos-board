@@ -144,16 +144,17 @@ function BoardPage() {
       </div>
 
       <section id="card-wrapper">
-        {board &&
-          board.cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-              handleDeleteCard={handleDeleteCard}
-              handleUpvoteCard={handleUpvoteCard}
-              openCommentsModal={openCommentsModal}
-            />
-          ))}
+
+      {board &&
+        board.cards.map((card) => (
+          <Card
+            key={card.id}
+            card={card}
+            handleDeleteCard={handleDeleteCard}
+            handleUpvoteCard={handleUpvoteCard}
+            openCommentsModal={openCommentsModal}
+          />
+        ))}
       </section>
 
       {displayCommentsCardId && (
