@@ -14,11 +14,10 @@ function Card({ card, handleDeleteCard, handleUpvoteCard, openCommentsModal }) {
 
   return (
     <MuiCard onClick={() => openCommentsModal(id)} className="single-card">
-      <CardMedia // TODO edit and specify attributes
+      <CardMedia 
         component="img"
-        alt="TODO"
+        alt="Kudos Card Image"
         height="140"
-        width="140"
         image={imageUrl}
       />
       <CardContent>

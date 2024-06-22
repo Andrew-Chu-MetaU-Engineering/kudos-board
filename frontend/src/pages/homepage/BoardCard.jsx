@@ -15,11 +15,10 @@ export default function BoardCard({ board, handleDeleteBoard }) {
 
   return (
     <Card className="card">
-      <CardMedia // TODO edit and specify attributes
+      <CardMedia 
         component="img"
-        alt="TODO"
+        alt="Kudos Board Image"
         height="140"
-        width="140"
         image={imageUrl}
       />
       <CardContent>

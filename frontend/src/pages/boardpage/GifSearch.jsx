@@ -40,6 +40,7 @@ function GifSearch({ setImageUrl }) {
           gifs.data.map((gif) => (
             <img
               key={gif.id}
+              alt="Kudos Card GIF"
               src={gif.images.preview_gif.url}
               onClick={() => setImageUrl(gif.images.original.url)}
             />
